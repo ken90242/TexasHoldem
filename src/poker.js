@@ -11,7 +11,6 @@ function cardConstruct() {
   return res;
 }
 
-const cards = cardConstruct();
 function* randomPopOne() {
   const numArr = cardConstruct();
   let res;
@@ -66,37 +65,5 @@ function getBestSet(numArr) {
   }
   return best;
 }
-
-function poke() {
-  const contestants = { alice: [], bob: [], carol: [], ted: [] };
-  const publicCards = [];
-  const keys = Object.keys(contestants);
-
-  for (let i = 0; i < 8; i += 1) {
-    const ii = i % 4;
-    const key = keys[ii];
-
-    contestants[key].push(randomPopOne(cards));
-  }
-
-  for (let i = 0; i < 5; i += 1) {
-    publicCards.push(randomPopOne(cards));
-  }
-
-  let candidant;
-  let winner;
-
-  keys.forEach((key) => {
-    const cur = getBestSet(contestants[key].concat(publicCards));
-    candidant = candidant || cur;
-    winner = winner || key;
-    winner = key;
-    if (compare(cur, candidant) === 1) {
-      candidant = cur;
-    }
-  });
-}
-
-poke();
 
 export { randomPopOne as Poker, getBestSet };
