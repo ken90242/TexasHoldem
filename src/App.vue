@@ -7,6 +7,7 @@
           <div class="name_column">{{ common.name }}</div>
           <PokeSlot v-for="card in common.cards" :class="card.type" :card="card"  />
         </li>
+        <hr/>
         <li v-for="player in players">
           <div class="name_column">{{ player.name }}</div>
           <PokeSlot v-for="card in player.cards" :class="card.type" :card="card"  />
@@ -32,9 +33,7 @@
 <script>
 import PokeSlot from './components/Slot';
 import Press from './components/Press';
-import { Poker, getBestSet } from './poker';
-import compare from './sets_compare';
-import setsConvert from './sets_convert';
+import { Poker, getBestSet, compare, setsConvert } from './js/poker';
 
 const USERS = ['Alice', 'Bob', 'Carol', 'Ted'];
 

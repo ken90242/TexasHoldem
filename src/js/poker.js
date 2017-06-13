@@ -66,4 +66,4 @@ function getBestSet(numArr) {
   return best;
 }
 
-export { randomPopOne as Poker, getBestSet };
+export { randomPopOne as Poker, getBestSet, compare, setsConvert };
