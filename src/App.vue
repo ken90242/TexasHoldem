@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import Hello from './components/Hello';
 import PokeSlot from './components/Slot';
 import Press from './components/Press';
 import { Poker, getBestSet } from './poker';
@@ -122,7 +121,7 @@ export default {
     },
   },
   components: {
-    Hello, PokeSlot, Press,
+    PokeSlot, Press,
   },
 };
 </script>
