@@ -33,7 +33,7 @@
 import PokeSlot from './components/Slot';
 import Press from './components/Press';
 import { Poker, getBestSet } from './poker';
-import setsCompare from './sets_compare';
+import compare from './sets_compare';
 import setsConvert from './sets_convert';
 
 const USERS = ['Alice', 'Bob', 'Carol', 'Ted'];
@@ -108,7 +108,7 @@ export default {
         let idx = 0;
 
         for (let i = 1; i < tmpArr.length; i += 1) {
-          if (setsCompare.compare(tmpArr[i].numArr, best) === 1) {
+          if (compare(tmpArr[i].numArr, best) === 1) {
             best = tmpArr[i].numArr;
             idx = i;
           }

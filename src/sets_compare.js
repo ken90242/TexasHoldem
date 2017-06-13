@@ -1,6 +1,6 @@
 import setsConvert from './sets_convert';
 import setsTools from './sets_tools';
-import setsClassify from './sets_classify';
+import classify from './sets_classify';
 
 /* if [val_a] > [val_b] : 1
  *  [val_a] = [val_b] : 0
@@ -67,7 +67,7 @@ function getSameVal(counts, arr) {
  * // (&& Same suit)
  * // -> 0
  * fn([OnePair],[RoyalFlush])
- * // -> 11
+ * // -> -1
  * ```
  */
 function compareInHighCard(valArrA, valArrB) {
@@ -193,8 +193,8 @@ function compareInRoyalFlush(valArrA, valArrB) {
 }
 
 function compare(NumArrA, NumArrB) {
-  const aLvL = setsClassify.classify(NumArrA);
-  const bLvL = setsClassify.classify(NumArrB);
+  const aLvL = classify(NumArrA);
+  const bLvL = classify(NumArrB);
   let flag = 1;
   if (aLvL < bLvL) {
     flag = -1;
@@ -250,17 +250,4 @@ function compare(NumArrA, NumArrB) {
   return flag;
 }
 
-const setsCompare = {};
-
-setsCompare.compareInHighCard = compareInHighCard;
-setsCompare.compareInPair = compareInPair;
-setsCompare.compareInTwoPair = compareInTwoPair;
-setsCompare.compareInThreeKind = compareInThreeKind;
-setsCompare.compareInStraight = compareInStraight;
-setsCompare.compareInFlush = compareInFlush;
-setsCompare.compareInFullHouse = compareInFullHouse;
-setsCompare.compareInFourKind = compareInFourKind;
-setsCompare.compareInStraightFlush = compareInStraightFlush;
-setsCompare.compareInRoyalFlush = compareInRoyalFlush;
-setsCompare.compare = compare;
-export default setsCompare;
+export default compare;

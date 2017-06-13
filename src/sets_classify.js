@@ -164,15 +164,4 @@ function classify(NumArr) {
   return lvl;
 }
 
-const setsClassify = {};
-setsClassify.isPair = isPair;
-setsClassify.isTwoPair = isTwoPair;
-setsClassify.isThreeKind = isThreeKind;
-setsClassify.isFourKind = isFourKind;
-setsClassify.isFlush = isFlush;
-setsClassify.isStraight = isStraight;
-setsClassify.isStraightFlush = isStraightFlush;
-setsClassify.isRoyalFlush = isRoyalFlush;
-setsClassify.isFullHouse = isFullHouse;
-setsClassify.classify = classify;
-export default setsClassify;
+export default classify;

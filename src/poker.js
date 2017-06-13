@@ -1,4 +1,4 @@
-import setsCompare from './sets_compare';
+import compare from './sets_compare';
 import setsTools from './sets_tools';
 import setsConvert from './sets_convert';
 
@@ -60,7 +60,7 @@ function getBestSet(numArr) {
   const possible = PickAllFive(numArr);
   let best = possible[0];
   for (let i = 1; i < possible.length; i += 1) {
-    if (setsCompare.compare(possible[i], best) === 1) {
+    if (compare(possible[i], best) === 1) {
       best = possible[i];
     }
   }
@@ -91,7 +91,7 @@ function poke() {
     candidant = candidant || cur;
     winner = winner || key;
     winner = key;
-    if (setsCompare.compare(cur, candidant) === 1) {
+    if (compare(cur, candidant) === 1) {
       candidant = cur;
     }
   });
