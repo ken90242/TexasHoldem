@@ -21,7 +21,7 @@ export default {
   text-align: center;
   display:inline-block;
   vertical-align: top;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 .small_number {
   margin-left: 5px;

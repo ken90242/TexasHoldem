@@ -15,15 +15,18 @@ export default {
   cursor: pointer;
   text-align: center;
   display: inline-block;
+  vertical-align: bottom;
 }
 .circle {
-  font-size: 60px;
+  font-size: 20px;
   border: 2px solid #a1a1a1;
   padding: 10px 10px; 
   background: #dddddd;
-  width: 80px;
-  height: 80px;
-  border-radius: 80px;
+  width: 140px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 40px;
+  margin: 10px;
 }
 .inactive {
   color: gray;

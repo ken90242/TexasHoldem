@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Texas Hold'em</h1>
+    <h2>Texas Hold'em</h2>
     <div class="left_column">
       <ul>
         <li>
@@ -14,16 +14,17 @@
       </ul>
     </div>
     <div class="right_column">
-      <Press @click.native="recover" text="回" :class="{ inactive: counter <= 0 }"></Press>
-      <Press @click.native="openCard" text="發" :class="{ inactive: counter >= 5 }"></Press>
-      <Press @click.native="close" text="結" :class="{ inactive: counter < 3 }"></Press>
-      <Press @click.native="reset" text="重"></Press>
-      <br/><br/>
-      <div>Rank</div>
+      <div><strong>Rank</strong></div>
       <li v-for="candidate in candidates">
         <div class="name_column">{{ candidate.rank}} - {{candidate.name }}</div>
         <PokeSlot v-for="card in candidate.cards" :class="card.type" :card="card"  />
       </li>
+    </div>
+    <div class="button_area">
+      <Press @click.native="recover" text="Recover" :class="{ inactive: counter <= 0 }"></Press>
+      <Press @click.native="openCard" text="Send Card" :class="{ inactive: counter >= 5 }"></Press>
+      <Press @click.native="close" text="Compare" :class="{ inactive: counter < 3 }"></Press>
+      <Press @click.native="reset" text="Reset"></Press>
     </div>
   </div>
 </template>
@@ -127,10 +128,13 @@ export default {
 </script>
 
 <style>
+ul {
+  padding: 0px;
+}
 li {
   list-style: none;
   text-align: left;
-  margin: 10px;
+  margin: 15px;
   height: 75px;
 }
 #app {
@@ -142,21 +146,47 @@ li {
 }
 .left_column {
   display:inline-block;
-  min-width: 50%;
+  min-width: 40%;
+  height: 470px;
+  border-style:solid;
+  border-color: #CDBCBC;
+  border-width:1px;
+  padding: 10px;
 }
 .right_column {
+  border-style:solid;
+  height: 470px;
+  border-width:1px;
+  border-color: #CDBCBC;
+  padding: 10px;
   vertical-align:top;
   display:inline-block;
   min-width: 40%;
 }
 .heart, .diamond {
-  color: red;
+  color: #EC0C0C;
+}
+.button_area {
+  margin-top: 30px;
 }
 .club, .spade {
   color: black;
 }
 .name_column {
+  margin-right: 10px;
   display:inline-block;
+  height: 75px;
+  text-align: right;
+  line-height: 75px;
+  width: 15%;
+}
+
+.right_column .name_column {
+  margin-right: 10px;
+  display:inline-block;
+  height: 75px;
+  text-align: left;
+  line-height: 75px;
   width: 15%;
 }
 </style>
