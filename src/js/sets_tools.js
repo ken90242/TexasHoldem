@@ -1,9 +1,4 @@
 // get rid of ALL [target] in [arr]
-// function getRid(target, arr) {
-//   const ar = arr.filter(v => v !== target);
-
-//   return ar;
-// }
 
 function aescendCompare(a, b) {
   let flag = 0;

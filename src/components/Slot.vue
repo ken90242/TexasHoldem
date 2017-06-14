@@ -1,14 +1,29 @@
 <template>
 	<div class="slot">
-		<div class="small_number">{{ card.number }}</div>
-    <div class="small_symbol">{{ card.symbol }}</div>
-    <div class="big_symbol">{{ card.symbol }}</div>
+		<div class="small_number">{{ numberTable[card.val] || card.val }}</div>
+    <div class="small_symbol">{{ symbolTable[card.suit] }}</div>
+    <div class="big_symbol">{{ symbolTable[card.suit] }}</div>
   </div>
 </template>
 
 <script>
 export default {
   props: ['card'],
+  data() {
+    const numberTable = {
+      11: 'J',
+      1: 'A',
+      12: 'Q',
+      13: 'K',
+    };
+    const symbolTable = {
+      club: '\u{2663}',
+      diamond: '\u{2666}',
+      heart: '\u2665',
+      spade: '\u2660',
+    };
+    return { numberTable, symbolTable };
+  },
 };
 </script>
 
@@ -19,7 +34,6 @@ export default {
 	width:50px;
 	height:75px;
   text-align: center;
-  display:inline-block;
   vertical-align: top;
   margin-right: 15px;
 }

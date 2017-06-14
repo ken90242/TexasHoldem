@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import compare from './sets_compare';
 import setsTools from './sets_tools';
 import setsConvert from './sets_convert';
@@ -8,6 +9,12 @@ function cardConstruct() {
   for (let i = 0; i < 52; i += 1) {
     res[i] = i;
   }
+  return res;
+}
+
+function getHash() {
+  const hash = crypto.createHash('sha256');
+  const res = hash.update(Date.now()).digest('hex').substring(0, 6);
   return res;
 }
 
@@ -25,7 +32,7 @@ function* randomPopOne() {
 
     arr = numArr.splice(randIdx, 1);
     obj = setsConvert.getCard(arr.pop());
-    res = { suit: obj.suit, val: obj.val, length: numArr.length };
+    res = { id: getHash(), suit: obj.suit, val: obj.val };
 
     yield res;
   }

@@ -201,50 +201,19 @@ function compare(NumArrA, NumArrB) {
   } else if (aLvL === bLvL) {
     const valArrA = NumArrA.map(num => setsConvert.getCard(num).val);
     const valArrB = NumArrB.map(num => setsConvert.getCard(num).val);
-    // console.log(`valArrA:${valArrA},valArrB:${valArrB}`)
+
     switch (aLvL) {
-      case 0:
-        // console.log(`HighCard`)
-        flag = compareInHighCard(valArrA, valArrB);
-        break;
-      case 1:
-        // console.log(`Pair`)
-        flag = compareInPair(valArrA, valArrB);
-        break;
-      case 2:
-        // console.log(`TwoPair`)
-        flag = compareInTwoPair(valArrA, valArrB);
-        break;
-      case 3:
-        // console.log(`ThreeKind`)
-        flag = compareInThreeKind(valArrA, valArrB);
-        break;
-      case 4:
-        // console.log(`Straight`)
-        flag = compareInStraight(valArrA, valArrB);
-        break;
-      case 5:
-        // console.log(`Flush`)
-        flag = compareInFlush(valArrA, valArrB);
-        break;
-      case 6:
-        // console.log(`FullHouse`)
-        flag = compareInFullHouse(valArrA, valArrB);
-        break;
-      case 7:
-        // console.log(`FourKind`)
-        flag = compareInFourKind(valArrA, valArrB);
-        break;
-      case 8:
-        // console.log(`StraightFlush`)
-        flag = compareInStraightFlush(valArrA, valArrB);
-        break;
-      case 9:
-        // console.log(`RoyalFlush`)
-        flag = compareInRoyalFlush(valArrA, valArrB);
-        break;
-      default:
-        break;
+      case 0: flag = compareInHighCard(valArrA, valArrB); break;
+      case 1: flag = compareInPair(valArrA, valArrB); break;
+      case 2: flag = compareInTwoPair(valArrA, valArrB); break;
+      case 3: flag = compareInThreeKind(valArrA, valArrB); break;
+      case 4: flag = compareInStraight(valArrA, valArrB); break;
+      case 5: flag = compareInFlush(valArrA, valArrB); break;
+      case 6: flag = compareInFullHouse(valArrA, valArrB); break;
+      case 7: flag = compareInFourKind(valArrA, valArrB); break;
+      case 8: flag = compareInStraightFlush(valArrA, valArrB); break;
+      case 9: flag = compareInRoyalFlush(valArrA, valArrB); break;
+      default: break;
     }
   }
   return flag;

@@ -1,33 +1,39 @@
 <template>
-  <div id="app">
+<div id="app">
+  <header>
     <h2>Texas Hold'em</h2>
-    <div class="left_column">
+  </header>
+  <main>
+    <section class="left">
       <ul>
-        <li>
-          <div class="name_column">{{ common.name }}</div>
-          <PokeSlot v-for="card in common.cards" :class="card.type" :card="card"  />
-        </li>
-        <hr/>
-        <li v-for="player in players">
-          <div class="name_column">{{ player.name }}</div>
-          <PokeSlot v-for="card in player.cards" :class="card.type" :card="card"  />
-        </li>
-      </ul>
-    </div>
-    <div class="right_column">
-      <div><strong>Rank</strong></div>
-      <li v-for="candidate in candidates">
-        <div class="name_column">{{ candidate.rank}} - {{candidate.name }}</div>
-        <PokeSlot v-for="card in candidate.cards" :class="card.type" :card="card"  />
+      <li>
+        <div class="name_column">{{ common.name }}</div>
+        <PokeSlot v-for="card in common.cards" :key="card.id" :class="card.suit" :card="card"  />
       </li>
-    </div>
-    <div class="button_area">
+      <hr style="width:100%"/>
+      <li v-for="player in players">
+        <div class="name_column">{{ player.name }}</div>
+        <PokeSlot v-for="card in player.cards" :key="card.id" :class="card.suit" :card="card"  />
+      </li>
+      </ul>
+    </section>
+    <section class="right">
+      <div><strong>Rank</strong></div>
+      <ul>
+      <li v-for="candidate, index in candidates">
+        <div class="name_column">{{ index + 1 }}.&nbsp;{{ candidate.name }}</div>
+        <PokeSlot v-for="card in candidate.cards" :key="card.id" :class="card.suit" :card="card"  />
+      </li>
+      </ul>
+    </section>
+    <section class="bottom">
       <Press @click.native="recover" text="Recover" :class="{ inactive: counter <= 0 }"></Press>
       <Press @click.native="openCard" text="Send Card" :class="{ inactive: counter >= 5 }"></Press>
       <Press @click.native="close" text="Compare" :class="{ inactive: counter < 3 }"></Press>
       <Press @click.native="reset" text="Reset"></Press>
-    </div>
-  </div>
+    </section>
+  </main>
+</div>
 </template>
 
 <script>
@@ -47,10 +53,8 @@ export default {
     const players = USERS.map((name) => {
       const res = { name, cards: [] };
       for (let i = 0; i < 2; i += 1) {
-        const rawObj = sets.next().value;
-        // setTimeout(() => {
-        res.cards.push(setsConvert.toCard(rawObj));
-        // }, 1000 * i);
+        const card = sets.next().value;
+        res.cards.push(card);
       }
       return res;
     });
@@ -70,8 +74,8 @@ export default {
       this.players = USERS.map((name) => {
         const res = { name, cards: [] };
         for (let i = 0; i < 2; i += 1) {
-          const rawObj = this.sets.next().value;
-          res.cards.push(setsConvert.toCard(rawObj));
+          const card = this.sets.next().value;
+          res.cards.push(card);
         }
         return res;
       });
@@ -84,8 +88,8 @@ export default {
       if (this.recoverBuffer.length > 0) {
         this.common.cards.push(this.recoverBuffer.pop());
       } else {
-        const rawObj = this.sets.next().value;
-        this.common.cards.push(setsConvert.toCard(rawObj));
+        const card = this.sets.next().value;
+        this.common.cards.push(card);
       }
       this.counter += 1;
     },
@@ -94,14 +98,12 @@ export default {
         return;
       }
       this.candidates = [];
-      // tmp = [name, {type, number, symbol}, ... ]
       const tmpArr = this.players.map((player) => {
-        const numArr = setsConvert.toNumArr(player.cards.concat(this.common.cards));
+        const numArr = player.cards.concat(this.common.cards).map(card => setsConvert.getNum(card));
         const playerBestnumArr = getBestSet(numArr);
 
         return { name: player.name, numArr: playerBestnumArr };
       });
-
       while (tmpArr.length > 0) {
         let best = tmpArr[0].numArr;
         let idx = 0;
@@ -114,8 +116,9 @@ export default {
         }
 
         const currentBest = tmpArr.splice(idx, 1).pop();
-        const cards = currentBest.numArr.map(num => setsConvert.toCard(setsConvert.getCard(num)));
-        this.candidates.push({ rank: -tmpArr.length + 4, name: currentBest.name, cards });
+        const cards = currentBest.numArr.map(num => setsConvert.getCard(num));
+
+        this.candidates.push({ name: currentBest.name, cards });
       }
     },
   },
@@ -125,66 +128,63 @@ export default {
 };
 </script>
 
-<style>
-ul {
-  padding: 0px;
-}
-li {
-  list-style: none;
-  text-align: left;
-  margin: 15px;
-  height: 75px;
-}
+<style lang="scss" scoped>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-}
-.left_column {
-  display:inline-block;
-  min-width: 40%;
-  height: 470px;
-  border-style:solid;
-  border-color: #CDBCBC;
-  border-width:1px;
-  padding: 10px;
-}
-.right_column {
-  border-style:solid;
-  height: 470px;
-  border-width:1px;
-  border-color: #CDBCBC;
-  padding: 10px;
-  vertical-align:top;
-  display:inline-block;
-  min-width: 40%;
-}
-.heart, .diamond {
-  color: #EC0C0C;
-}
-.button_area {
-  margin-top: 30px;
-}
-.club, .spade {
-  color: black;
-}
-.name_column {
-  margin-right: 10px;
-  display:inline-block;
-  height: 75px;
-  text-align: right;
-  line-height: 75px;
-  width: 15%;
-}
-
-.right_column .name_column {
-  margin-right: 10px;
-  display:inline-block;
-  height: 75px;
-  text-align: left;
-  line-height: 75px;
-  width: 15%;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  header {
+    margin-top: 20px;
+  }
+  main {
+    display:flex;
+    section:nth-child(-n+2) {
+      min-width: 40%;
+      border:1px solid #CDBCBC;
+      padding: 10px;
+      .name_column {
+        margin-right: 10px;
+        height: 75px;
+        line-height: 75px;
+        min-width: 15%;
+      }
+    }
+    ul {
+      margin: 0px;
+      padding: 0px;
+      display: flex;
+      flex-direction:column;
+      li {  
+        display: inline-flex;
+        align-content:space-between;
+        list-style: none;
+        text-align: left;
+        margin: 15px;
+        height: 70px;
+        .heart, .diamond {
+          color: #BC0F0F;
+        }
+        .club, .spade {
+          color: black;
+        }
+      }
+    }
+    .left {
+      .name_column {
+        text-align: right;
+      }
+    }
+    .right {
+      // display:flex;
+      // flex-direction:column;
+      // justify-content:space-around;
+      order:2;
+    }
+    .bottom {
+      display:flex;
+      flex-direction:column;
+      justify-content: space-around;
+      margin-top: 30px;
+    }
+  }
 }
 </style>
