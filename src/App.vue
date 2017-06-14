@@ -28,10 +28,12 @@
     </section>
     <section class="bottom">
       <Press @click.native="recover" text="Recover" :class="{ inactive: counter <= 0 }"></Press>
-      <Press @click.native="openCard" text="Send Card" :class="{ inactive: counter >= 5 }"></Press>
       <Press @click.native="close" text="Compare" :class="{ inactive: counter < 3 }"></Press>
+      <Press @click.native="sendCard" text="Send Card" :class="{ inactive: counter >= 5 }"></Press>
       <Press @click.native="reset" text="Reset"></Press>
+      <Press @click.native="showRule" text="Show Rule"></Press>
     </section>
+    <LightBox v-on:hideRule="hideRule" :status="LightBoxStatus"></LightBox>
   </main>
 </div>
 </template>
@@ -39,6 +41,7 @@
 <script>
 import PokeSlot from './components/Slot';
 import Press from './components/Press';
+import LightBox from './components/LightBox';
 import { Poker, getBestSet, compare, setsConvert } from './js/poker';
 
 const USERS = ['Alice', 'Bob', 'Carol', 'Ted'];
@@ -48,8 +51,9 @@ export default {
     const sets = Poker();
     const common = { name: 'common', cards: [] };
     const candidates = [];
-    const counter = 0;
     const recoverBuffer = [];
+    const counter = 0;
+    const LightBoxStatus = 'modalNone';
     const players = USERS.map((name) => {
       const res = { name, cards: [] };
       for (let i = 0; i < 2; i += 1) {
@@ -58,9 +62,15 @@ export default {
       }
       return res;
     });
-    return { sets, players, common, candidates, counter, recoverBuffer };
+    return { sets, players, common, candidates, counter, recoverBuffer, LightBoxStatus };
   },
   methods: {
+    hideRule() {
+      this.LightBoxStatus = 'modalNone';
+    },
+    showRule() {
+      this.LightBoxStatus = 'modalblock';
+    },
     recover() {
       if (this.common.cards.length <= 0) return;
       this.recoverBuffer.push(this.common.cards.pop());
@@ -80,7 +90,7 @@ export default {
         return res;
       });
     },
-    openCard() {
+    sendCard() {
       if (this.counter >= 5) {
         return;
       }
@@ -114,7 +124,6 @@ export default {
             idx = i;
           }
         }
-
         const currentBest = tmpArr.splice(idx, 1).pop();
         const cards = currentBest.numArr.map(num => setsConvert.getCard(num));
 
@@ -123,7 +132,7 @@ export default {
     },
   },
   components: {
-    PokeSlot, Press,
+    PokeSlot, Press, LightBox,
   },
 };
 </script>
@@ -174,10 +183,7 @@ export default {
       }
     }
     .right {
-      // display:flex;
-      // flex-direction:column;
-      // justify-content:space-around;
-      order:2;
+      order:1;
     }
     .bottom {
       display:flex;

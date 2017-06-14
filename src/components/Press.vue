@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  props: ['text'],
+  props: ['text', 'custom'],
 };
 </script>
 
