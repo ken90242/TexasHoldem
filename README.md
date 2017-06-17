@@ -1,6 +1,7 @@
 # texas
 
 > ife practice
+![image](https://github.com/ken90242/TexasHoldem/blob/master/demo.gif)
 
 ## Build Setup
 
